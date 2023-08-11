@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Organizer</string>
+    <string name="banner_product_title">Free $product from out partner %1$s!"</string>
+    <string name="banner_product_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+        convallis egestas dui vitae tempus. Mauris aliquet, tellus pretium maximus dignissim, mi
+        elit hendrerit nisl, vitae interdum odio sem ut metus. Pellentesque sed erat sed eros
+        pulvinar luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare
+        efficitur fringilla. Pellentesque habitant morbi tristique senectus et netus et malesuada
+        fames ac turpis egestas. Donec vulputate, ante eu condimentum semper, tortor massa tincidunt
+        leo, et viverra lorem sem in nisi. Praesent quis erat sagittis, pulvinar nulla eleifend,
+        aliquam mi.
+    </string>
+    <string name="banner_product_subtext">Offer lasts until %1$s</string>
+    <string name="banner_discound_text">Discount on our Premium version! Grab the offer at %1$s
+        %2$d% off!
+    </string>
+    <string name="tasks_for_the_day">Tasks for the Day</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="select_time">Select time</string>
+    <string name="title">Title</string>
+    <string name="title_requirements">Please enter a value up to 40 characters long</string>
+    <string name="duration">Duration</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="hour">Hour</string>
+    <string name="minute">Minute</string>
+</resources>
