@@ -1,12 +1,3 @@
-//import com.danilovfa.organizer.Versions
-
-//buildscript {
-//    dependencies {
-//        classpath(Deps.App.Cash.SQLDelight.gradlePlugin)
-//        classpath(Deps.Dev.IceRock.Moko.gradlePlugin)
-//    }
-//}
-
 plugins {
     kotlin("jvm") version "1.8.20" apply false
     kotlin("multiplatform") version "1.8.20" apply false
