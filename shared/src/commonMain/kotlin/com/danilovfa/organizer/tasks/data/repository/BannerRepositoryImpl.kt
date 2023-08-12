@@ -2,6 +2,7 @@ package com.danilovfa.organizer.tasks.data.repository
 
 import com.danilovfa.organizer.core.data.FileManager
 import com.danilovfa.organizer.core.utils.UUID
+import com.danilovfa.organizer.core.utils.toFormattedString
 import com.danilovfa.organizer.tasks.data.exception.WrongBannerTypeException
 import com.danilovfa.organizer.tasks.domain.model.Banner
 import com.danilovfa.organizer.tasks.domain.repository.BannerRepository
@@ -13,6 +14,12 @@ import kotlinx.datetime.LocalDate
 import kotlin.coroutines.CoroutineContext
 import kotlin.random.Random
 import com.danilovfa.organizer.tasks.data.mapper.BannerEntityMapper
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DatePeriod
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
+import kotlinx.datetime.todayIn
+import kotlin.random.nextInt
 
 class BannerRepositoryImpl(
     private val fileManager: FileManager,
@@ -26,11 +33,9 @@ class BannerRepositoryImpl(
         var bannersBytes = listOf<ByteArray>()
 
         withContext(ioDispatcher) {
-            fileNames.forEach { fileName ->
+            bannersBytes = fileNames.map { fileName ->
                 async { fileManager.readFromFile(BANNERS_DIR, fileName) }
-            }
-
-            bannersBytes = awaitAll()
+            }.awaitAll()
         }
 
         return bannersBytes.mapNotNull { bannerBytes ->
@@ -44,7 +49,7 @@ class BannerRepositoryImpl(
         }
     }
 
-    override suspend fun updateBanners() : Result<Unit> = runCatching {
+    override suspend fun updateBanners(): Result<Unit> = runCatching {
         val banners = mutableListOf<Banner>()
 
         banners.add(generateDiscountBanner())
@@ -79,12 +84,19 @@ class BannerRepositoryImpl(
     private fun generateProductBanner(): Banner.ProductBanner {
         val product = PRODUCTS.random()
         val company = COMPANIES.random()
-        val date = LocalDate.fromEpochDays(Random.nextInt())
+
+        val startDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
+        val endDate =
+            startDate.plus(DatePeriod(months = 1))
+
+        val date = LocalDate.fromEpochDays(Random.nextInt(
+            startDate.toEpochDays()..endDate.toEpochDays())
+        ).toFormattedString()
 
         return Banner.ProductBanner(
             productName = product,
             companyName = company,
-            date = date.toString()
+            date = date
         )
     }
 
