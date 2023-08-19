@@ -6,6 +6,7 @@ import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.stateFlow
 import com.danilovfa.organizer.tasks.ui.store.TasksStore
 import com.danilovfa.organizer.tasks.ui.store.TasksStoreFactory
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.StateFlow
 
 class TasksComponent(
@@ -18,6 +19,7 @@ class TasksComponent(
         ).create()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     val state: StateFlow<TasksStore.State> = tasksStore.stateFlow
 
     fun onEvent(event: TasksStore.Intent) {
