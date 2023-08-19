@@ -6,6 +6,6 @@ import tasksDatabase.TaskEntity
 fun TaskEntity.toDomain() = Task(
     id = id,
     title = title,
-    startedAt = startedAt,
-    endedAt = endedAt
+    createdAtEpoch = createdAtEpoch,
+    durationMinutes = durationMinutes.toInt()
 )

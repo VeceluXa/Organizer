@@ -11,6 +11,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.supervisorScope
+import kotlinx.datetime.Clock
 import kotlin.coroutines.CoroutineContext
 
 class TasksRepositoryImpl(
@@ -36,12 +37,21 @@ class TasksRepositoryImpl(
             }
     }
 
-    override suspend fun insertTask(task: Task) {
+    override suspend fun insertTask(title: String, durationInMinutes: Int) {
+        queries.insertTask(
+            id = null,
+            title = title,
+            createdAtEpoch = Clock.System.now().epochSeconds,
+            durationMinutes = durationInMinutes.toLong()
+        )
+    }
+
+    override suspend fun updateTask(task: Task) {
         queries.insertTask(
             id = task.id,
             title = task.title,
-            startedAt = task.startedAt,
-            endedAt = task.endedAt
+            createdAtEpoch = task.createdAtEpoch,
+            durationMinutes = task.durationMinutes.toLong()
         )
     }
 
