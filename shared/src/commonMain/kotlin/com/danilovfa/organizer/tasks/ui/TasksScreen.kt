@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -28,7 +29,6 @@ import com.danilovfa.organizer.tasks.ui.store.TasksStore
 import dev.icerock.moko.resources.compose.stringResource
 import com.danilovfa.organizer.resources.MR
 import kotlinx.coroutines.launch
-import androidx.compose.material3.MaterialTheme as Material3Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,13 +74,13 @@ fun TasksScreen(
                         .height(6.dp)
                         .width(48.dp)
                         .background(
-                            color = Material3Theme.colorScheme.secondaryContainer,
+                            color = MaterialTheme.colorScheme.secondaryContainer,
                             shape = RoundedCornerShape(32.dp)
                         )
 
                 )
             },
-            containerColor = Material3Theme.colorScheme.surface
+            containerColor = MaterialTheme.colorScheme.surface
         ) {
             TaskBottomSheetContent(
                 isVisible = bottomSheetState.isVisible,
