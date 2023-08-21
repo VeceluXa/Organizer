@@ -1,18 +1,22 @@
+import com.danilovfa.organizer.Configuration
+import com.danilovfa.organizer.Deps
+
 plugins {
-    id("com.android.application")
     kotlin("android")
+    id("com.android.application")
     id("org.jetbrains.compose")
+    id("kotlin-parcelize")
 }
 
 android {
     namespace = "com.danilovfa.organizer.android"
-    compileSdk = 33
+    compileSdk = Configuration.compileSdk
     defaultConfig {
         applicationId = "com.danilovfa.organizer.android"
-        minSdk = 24
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = Configuration.minSdk
+        targetSdk = Configuration.targetSdk
+        versionCode = Configuration.versionCode
+        versionName = Configuration.versionName
     }
     buildFeatures {
         compose = true
@@ -23,6 +27,7 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/versions/9/previous-compilation-data.bin"
         }
     }
     buildTypes {
@@ -41,13 +46,34 @@ android {
 
 dependencies {
     implementation(project(":shared"))
-    implementation("androidx.compose.ui:ui:1.4.3")
-    implementation("androidx.compose.ui:ui-tooling:1.4.3")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.4.3")
-    implementation("androidx.compose.foundation:foundation:1.4.3")
-    implementation("androidx.compose.material:material:1.4.3")
-    implementation("androidx.activity:activity-compose:1.7.2")
 
-    implementation("io.insert-koin:koin-core:3.4.2")
-    implementation("io.insert-koin:koin-android:3.4.2")
+    with(compose) {
+        implementation(foundation)
+        implementation(material3)
+        implementation(ui)
+        implementation(preview)
+        debugImplementation(uiTooling)
+    }
+
+    with (Deps.Com.Arkivanov.MviKotlin) {
+        implementation(mvikotlin)
+        implementation(mvikotlinMain)
+        implementation(mvikotlinExtensionsCoroutines)
+    }
+
+    with (Deps.Com.Arkivanov.Decompose) {
+        implementation(decompose)
+        implementation(extensionsCompose)
+    }
+
+    with (Deps.Io.InsertKoin) {
+        implementation(koinCore)
+        implementation(koinAndroid)
+    }
+
+    with (Deps.AndroidX) {
+        implementation(workRuntimeKtx)
+        implementation(activityCompose)
+        implementation(navigationCompose)
+    }
 }

@@ -1,8 +1,14 @@
+import com.danilovfa.organizer.Configuration
+import com.danilovfa.organizer.Deps
+
 plugins {
     kotlin("multiplatform")
+    kotlin("plugin.serialization")
     id("com.android.library")
     id("org.jetbrains.compose")
     id("app.cash.sqldelight")
+    id("dev.icerock.mobile.multiplatform-resources")
+    id("kotlin-parcelize")
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
@@ -20,23 +26,59 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material3)
-                implementation(compose.materialIconsExtended)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
+                with(compose) {
+                    implementation(runtime)
+                    implementation(foundation)
+                    implementation(material3)
+                    implementation(material)
+                    implementation(materialIconsExtended)
+                    @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                    implementation(components.resources)
+                    implementation(uiTooling)
+                    implementation(preview)
+                }
 
-                implementation("app.cash.sqldelight:runtime:2.0.0")
-                implementation("app.cash.sqldelight:coroutines-extensions:2.0.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-                implementation("io.insert-koin:koin-core:3.4.2")
+                with (Deps.App.Cash.SQLDelight) {
+                    implementation(runtime)
+                    implementation(coroutinesExtensions)
+                }
+
+                with (Deps.Org.Jetbrains.KotlinX) {
+                    implementation(serializationJson)
+                    implementation(dateTime)
+                }
+
+                with (Deps.Io.InsertKoin) {
+                    implementation(koinCore)
+                    implementation(koinCompose)
+                }
+
+                with (Deps.Com.Arkivanov.MviKotlin) {
+                    implementation(mvikotlin)
+                    implementation(mvikotlinMain)
+                    implementation(mvikotlinExtensionsCoroutines)
+                }
+
+                with (Deps.Com.Arkivanov.Decompose) {
+                    implementation(decompose)
+                    implementation(extensionsCompose)
+                }
+
+                implementation(Deps.Com.Arkivanov.Essenty.lifecycle)
+                implementation(Deps.Co.Touchlab.kermit)
+
+                with (Deps.Dev.IceRock.Moko.Resources) {
+                    implementation(resources)
+                    implementation(resourcesCompose)
+                }
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation("androidx.core:core:1.10.1")
-                implementation("app.cash.sqldelight:android-driver:2.0.0")
+                implementation(Deps.AndroidX.core)
+                implementation(Deps.App.Cash.SQLDelight.androidDriver)
+                implementation(Deps.Io.InsertKoin.koinCore)
+                implementation(Deps.Io.InsertKoin.koinAndroid)
             }
         }
         val commonTest by getting {
@@ -57,12 +99,17 @@ sqldelight {
 
 android {
     namespace = "com.danilovfa.organizer"
-    compileSdk = 33
+    compileSdk = Configuration.compileSdk
     defaultConfig {
-        minSdk = 24
+        minSdk = Configuration.minSdk
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
+}
+
+multiplatformResources {
+    multiplatformResourcesPackage = "com.danilovfa.organizer.resources"
 }

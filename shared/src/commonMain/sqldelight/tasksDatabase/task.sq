@@ -1,0 +1,29 @@
+CREATE TABLE taskEntity (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    createdAtEpoch INTEGER NOT NULL,
+    durationMinutes INTEGER NOT NULL
+);
+
+insertTask:
+INSERT OR REPLACE
+INTO taskEntity(
+    id,
+    title,
+    createdAtEpoch,
+    durationMinutes
+) VALUES (?, ?, ?, ?);
+
+deleteTask:
+DELETE FROM taskEntity
+WHERE id = :id;
+
+getTodaysTasks:
+SELECT * FROM taskEntity
+WHERE datetime(createdAtEpoch, 'unixepoch') <= datetime('now')
+AND datetime(createdAtEpoch, 'unixepoch') >= datetime('now', '-1 day')
+ORDER BY durationMinutes ASC;
+
+deleteExpiredTasks:
+DELETE FROM taskEntity
+WHERE datetime(createdAtEpoch, 'unixepoch') < datetime('now', '-1 day');
