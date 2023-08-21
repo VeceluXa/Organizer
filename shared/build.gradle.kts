@@ -30,9 +30,12 @@ kotlin {
                     implementation(runtime)
                     implementation(foundation)
                     implementation(material3)
+                    implementation(material)
                     implementation(materialIconsExtended)
                     @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                     implementation(components.resources)
+                    implementation(uiTooling)
+                    implementation(preview)
                 }
 
                 with (Deps.App.Cash.SQLDelight) {

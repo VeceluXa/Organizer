@@ -5,7 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface TasksRepository {
     fun getTodaysTasks(): Flow<List<Task>>
-    suspend fun insertTask(task: Task)
+    suspend fun insertTask(title: String, durationInMinutes: Int)
+    suspend fun updateTask(task: Task)
+
     suspend fun deleteTask(id: Long)
     suspend fun deleteExpiredTasks() : Result<Unit>
 }

@@ -45,14 +45,14 @@ android {
 }
 
 dependencies {
-    api(project(":shared"))
+    implementation(project(":shared"))
 
     with(compose) {
         implementation(foundation)
         implementation(material3)
         implementation(ui)
-        implementation(uiTooling)
         implementation(preview)
+        debugImplementation(uiTooling)
     }
 
     with (Deps.Com.Arkivanov.MviKotlin) {

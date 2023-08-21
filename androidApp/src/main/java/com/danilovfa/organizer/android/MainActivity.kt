@@ -3,7 +3,6 @@ package com.danilovfa.organizer.android
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
@@ -25,9 +24,7 @@ class MainActivity : ComponentActivity() {
         )
 
         setContent {
-            OrganizerTheme(
-                darkTheme = isSystemInDarkTheme()
-            ) {
+            OrganizerTheme {
                 RootContent(rootComponent)
             }
         }

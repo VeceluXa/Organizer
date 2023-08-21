@@ -17,7 +17,7 @@ object Versions {
 
     object KotlinX {
         const val dateTime = "0.4.0"
-        const val serializationJson = "1.6.0-RC"
+        const val serializationJson = "1.5.1"
     }
 
     object AndroidX {
