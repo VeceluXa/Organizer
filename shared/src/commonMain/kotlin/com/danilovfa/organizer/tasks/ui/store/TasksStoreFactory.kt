@@ -81,14 +81,12 @@ class TasksStoreFactory(
             scope.launch {
                 tasksRepository.insertTask(title, durationInMinutes)
             }
-            dispatch(Msg.DismissAddEditTask)
         }
 
         private fun deleteTask(id: Long) {
             scope.launch {
                 tasksRepository.deleteTask(id)
             }
-            dispatch(Msg.DismissAddEditTask)
         }
 
         private fun loadBanners() {
@@ -116,7 +114,6 @@ class TasksStoreFactory(
             scope.launch {
                 tasksRepository.updateTask(task)
             }
-            dispatch(Msg.DismissAddEditTask)
         }
     }
 
