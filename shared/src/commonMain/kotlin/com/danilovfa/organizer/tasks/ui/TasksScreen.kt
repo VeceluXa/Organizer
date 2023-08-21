@@ -11,14 +11,22 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import co.touchlab.kermit.Logger
+import com.danilovfa.organizer.tasks.ui.component.MessageDialog
 import com.danilovfa.organizer.tasks.ui.component.TaskBottomSheetContent
 import com.danilovfa.organizer.tasks.ui.component.TasksContent
 import com.danilovfa.organizer.tasks.ui.store.TasksStore
+import dev.icerock.moko.resources.compose.stringResource
+import com.danilovfa.organizer.resources.MR
 import kotlinx.coroutines.launch
 import androidx.compose.material3.MaterialTheme as Material3Theme
 
@@ -28,8 +36,24 @@ fun TasksScreen(
     component: TasksComponent
 ) {
     val state by component.state.collectAsState()
-    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
+
+    state.error?.let { errorMessage ->
+        MessageDialog(
+            title = stringResource(MR.strings.error),
+            message = errorMessage
+        ) {
+            component.onEvent(TasksStore.Intent.DismissError)
+        }
+    }
+
+    var recompositionCount by remember { mutableStateOf(0) }
+    SideEffect {
+        recompositionCount += 1
+        Logger.withTag("TasksScreen").i { "Recompositions: $recompositionCount" }
+    }
+
+    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     LaunchedEffect(state.isTasksBottomSheetOpen) {
         if (state.isTasksBottomSheetOpen && !bottomSheetState.isVisible) {
